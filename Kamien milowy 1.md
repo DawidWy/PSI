@@ -21,4 +21,3 @@ Architektura Conditional Invertible Neural Networks adresuje tzw. problemy odwro
 # **5\. Analiza wymagań, zasobów i ryzyk projektowych**
 
 Skuteczna realizacja projektu może wymagać dostępu do jednostek GPU o pamięci VRAM nie przekraczającej 2GB, które umożliwią równoległe przetwarzanie wielowymiarowych wektorów danych spektralnych. Od strony programistycznej projekt opiera się na środowisku Python oraz frameworkach takich jak PyTorch, wspieranych przez specjalistyczne biblioteki astrofizyczne do manipulacji plikami w formacie FITS. Do głównych ryzyk projektowych należy obsługa obiektów typu "out-of-distribution", czyli gwiazd o ekstremalnie rzadkich cechach fizycznych, które mogą prowadzić do destabilizacji wyników modelu, co wymaga zaimplementowania mechanizmów wykrywania anomalii już na etapie inferencji.
-
