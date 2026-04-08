@@ -6,7 +6,7 @@ Zdefiniowanie problemu przewidywania parametrów fizycznych gwiazd na podstawie 
 
 ### **2\. Zbiór danych i ich przygotowanie**
 
-Pozyskanie danych spektroskopowych z dostępnych źródeł astronomicznych. Czyszczenie danych oraz ekstrakcja istotnych cech takich jak linie widmowe.
+Znalezienie metody na odczytywanie danych astronomicznych z plików .fits i pobranie ich z bazy danych SPSS NASA.
 
 ### **3\. Wybór i implementacja modelu AI**
 
