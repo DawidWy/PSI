@@ -1,3 +1,5 @@
 DownloadAddresses.txt
 *.fits
 *.fits.gz
+.env
+*.pt
