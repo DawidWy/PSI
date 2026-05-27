@@ -59,8 +59,7 @@ export default function App() {
       <header className="hero">
         <h1>Parametry gwiazd z widma</h1>
         <p>
-          Wrzuć widmo spektralne ({dim} punktów) lub plik FITS (mwmStar/APOGEE)
-          — formaty CSV, JSON, NPY, HDF5, FITS. Model oszacuje Teff, log&nbsp;g
+          Wrzuć widmo spektralne ({dim} punktów) lub plik FITS (mwmStar/APOGEE). Model oszacuje Teff, log&nbsp;g
           i [Fe/H].
         </p>
       </header>
@@ -76,7 +75,7 @@ export default function App() {
             {file ? file.name : "Kliknij lub przeciągnij plik"}
           </span>
           <span className="dropzone-hint">
-            CSV / JSON / NPY / H5 / FITS — jedno widmo na plik
+             FITS - jedno widmo na plik
           </span>
         </label>
 
