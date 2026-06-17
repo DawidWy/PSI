@@ -1,5 +1,3 @@
-"""Ekstrakcja widma z plików FITS (mwmStar / APOGEE i podobne)."""
-
 import io
 from typing import BinaryIO
 
@@ -36,10 +34,6 @@ def _flux_from_image(hdu) -> np.ndarray | None:
 
 
 def parse_fits_spectrum(source: bytes | BinaryIO, target_dim: int = INPUT_DIM) -> np.ndarray:
-    """
-    Wyciąga wektor flux z pliku FITS.
-    Obsługuje tabele binarne (kolumna flux) oraz proste obrazy 1D.
-    """
     fileobj = io.BytesIO(source) if isinstance(source, (bytes, bytearray)) else source
 
     candidates: list[tuple[str, np.ndarray]] = []
@@ -72,7 +66,6 @@ def parse_fits_spectrum(source: bytes | BinaryIO, target_dim: int = INPUT_DIM) -
             f"{target_dim}."
         )
 
-    # Prefer exact length match, then closest length
     exact = [(n, f) for n, f in candidates if f.size == target_dim]
     if exact:
         return exact[0][1].astype(np.float32, copy=False)
