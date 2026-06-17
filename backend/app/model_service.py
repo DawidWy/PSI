@@ -85,6 +85,21 @@ def _infer_architecture_from_state(state: dict[str, torch.Tensor]) -> tuple[int,
     return input_dim, cond_dim, n_blocks, subnet_layers
 
 
+def preprocess_spectrum(spectrum: np.ndarray, x_mean: np.ndarray) -> np.ndarray:
+    """Map raw FITS flux counts to the log-flux scale used during training."""
+    x = np.asarray(spectrum, dtype=np.float32).reshape(-1)
+    mean = np.asarray(x_mean, dtype=np.float32).reshape(-1)
+    if x.shape[0] != mean.shape[0]:
+        raise ValueError(f"Widmo musi mieć {mean.shape[0]} punktów, otrzymano {x.shape[0]}.")
+
+    # Training spectra are log(flux); uploaded FITS files contain raw flux counts.
+    if np.nanmedian(x) > 20.0:
+        raw = x.copy()
+        x = np.log(np.maximum(raw, 1e-10, dtype=np.float64)).astype(np.float32)
+        x[raw <= 0] = mean[raw <= 0]
+    return x
+
+
 def _load_or_compute_norm_stats() -> dict[str, np.ndarray]:
     if NORM_STATS_PATH.exists():
         data = np.load(NORM_STATS_PATH)
@@ -144,10 +159,8 @@ class StellarInferenceService:
         self.model.eval()
 
     def normalize_spectrum(self, spectrum: np.ndarray) -> torch.Tensor:
-        x = np.asarray(spectrum, dtype=np.float32).reshape(1, -1)
-        if x.shape[1] != INPUT_DIM:
-            raise ValueError(f"Widmo musi mieć {INPUT_DIM} punktów, otrzymano {x.shape[1]}.")
-        t = torch.tensor(x, dtype=torch.float32, device=DEVICE)
+        x = preprocess_spectrum(spectrum, self.stats["x_mean"])
+        t = torch.tensor(x.reshape(1, -1), dtype=torch.float32, device=DEVICE)
         return (t - self.x_mean) / self.x_std
 
     @torch.enable_grad()
